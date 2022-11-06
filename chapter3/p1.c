@@ -26,26 +26,26 @@ void test_float(void)
 
 
 
-    printf("float_MAX = %f\n", float_MAX);
-    printf("float_MIN = %f\n", float_MIN);
+    printf("float_MAX = %e\n", float_MAX);
+    printf("float_MIN = %e\n", float_MIN);
 
     float_MAX += 1.0;
     float_MIN -= 1.0;
 
-    printf("float_MAX + 1.0 = %f\n", float_MAX);
-    printf("float_MIN - 1.0 = %f\n", float_MIN);
+    printf("float_MAX + 1.0 = %e\n", float_MAX);
+    printf("float_MIN - 1.0 = %e\n", float_MIN);
     
     printf("************************************************************\n");
 
 
-    printf("double_MAX =\n %f\n", double_MAX);
-    printf("double_MIN = %f\n", double_MIN);
+    printf("double_MAX =\n %e\n", double_MAX);
+    printf("double_MIN = %e\n", double_MIN);
     
     double_MAX += 1.0;
     double_MIN -= 1.0;
 
-    printf("double_MAX + 1.0 = \n %f\n", double_MAX);
-    printf("double_MIN - 1.0 = %f\n", double_MIN);
+    printf("double_MAX + 1.0 = \n %e\n", double_MAX);
+    printf("double_MIN - 1.0 = %e\n", double_MIN);
 }
 
 int main(void)
