@@ -17,31 +17,18 @@ int main(void)
 {
     
     double temp;
-    char ch;
-    int i_ch = 0;
-    int count = 10;
-    while(count--)
+    int status = 0;
+
+    status = scanf("%lf", &temp);
+    
+    while(status == 1)
     {
 
-        scanf("%lf", &temp);
-        ch = (char)temp;
-        i_ch = (char)temp;
-        
-        if (ch == '\0')
-        {
-            printf("exit!\n");
-            goto exit;
-        }
-        
         Temperatures(temp);
-
-        ch = '\0';
-        temp = 0.0;
+        status = scanf("%lf", &temp); 
     }
+    printf("Done !\n");
 
-    
-
-    exit:
     return 0;
 
 }
