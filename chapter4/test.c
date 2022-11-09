@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void test_scanf(void)
+void test_scanf_char(void)
 {
 
     char a, b;
@@ -12,6 +12,13 @@ void test_scanf(void)
     printf("a = %c\n", a);
     return;
 
+}
+
+void test_scanf_int(void)
+{
+
+    int a;
+    scanf("%d", &a);
 }
 
 void test_printf(void)
@@ -45,7 +52,8 @@ void test_printf(void)
 int main(void)
 {
 
-    test_scanf();
+    //test_scanf();
+    test_scanf_int();
 
     return 0;
 }
