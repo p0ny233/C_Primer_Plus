@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void pound();
+void pound(char);
 
 int main(void)
 {
@@ -9,16 +9,16 @@ int main(void)
     char ch = '!';
     float f = 6.0;
 
-    pound(times);
+    //pound(times);
     pound(ch);  // 
-    pound(f);  // 6
+    //pound(f);  // 6
     
 
     return 0;
 
 
 }
-void pound(int n)
+void pound(char n)
 {
     while (n-- > 0)
         printf("#");
