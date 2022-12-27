@@ -9,7 +9,7 @@ int main(void)
 
     puts("Enter strings (empty line to quit):");
 
-    while (fgets(words, STLEN, stdin) != NULL)
+    while (fgets(words, STLEN, stdin) != NULL && words[0] != '\n')
         fputs(words, stdout);
 
     puts("Done.");
