@@ -10,7 +10,8 @@ int main(void)
     
     printf("%.1e %.1e %.1e %.1e\n ", n1, n2, n3, n4);
     printf("%ld %ld\n", n3, n4);
-    printf("n1 = %ld  n2 = %ld n4 = %ld n4 = %ld\n", (float)n1, n2, n3, n4);
+    printf("n1 = %ld  n2 = %ld n3 = %ld n4 = %ld\n", (float)n1, n2, n3, n4);
+    printf("n1 = %.1e  n2 = %.1e n3 = %ld n4 = %ld\n", (float)n1, n2, n3, n4);
 
     return 0;
 
