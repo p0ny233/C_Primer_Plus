@@ -3,13 +3,14 @@
 
 void test_strncpy()
 {
-    char s1[] = "Hello World";
-    char s2[] = "jack";
+    char s1[40] = "H1ello World";
+    char s2[40] = "jack hello";
 
     printf("s1:%s\n", s1);
     printf("s2:%s\n", s2);
 
-    strncpy(s1, s2, 999);
+    // strlen(s2) = 10
+    strncpy(s1, s2, 11);
 
     printf("s1:%s\n", s1);
     printf("s2:%s\n", s2);
@@ -46,8 +47,8 @@ void test_strncmp()
 
 int main(void)
 {
-    //test_strncpy();
+    test_strncpy();
     //test_strncat();
-    test_strncmp();
+    //test_strncmp();
     return 0;
 }
