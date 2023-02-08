@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #define SIZE 256
+
+int findc(char ch, const char * line);
 
 int main(int argc, char ** argv)
 {
@@ -26,10 +27,22 @@ int main(int argc, char ** argv)
 
     while (fgets(line, SIZE, fp) != NULL)
     {
-        if (strchr(line, ch))
+        if (findc(ch, line))
         {
             fputs(line, stdout);
         }
+    }
+
+    return 0;
+}
+
+int findc(char ch, const char * line)
+{
+    while (*line)
+    {
+        if (*line == ch)
+            return 1;
+        line++;
     }
 
     return 0;
