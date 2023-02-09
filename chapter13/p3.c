@@ -15,6 +15,8 @@ int main(void)
     FILE * fp;
     static char BUF[BUFFSIZE];
     long bytes;
+    long Offset;
+
     
     printf("Please input file name: ");
     if (s_gets(fileName, SLEN) == NULL)
@@ -22,19 +24,19 @@ int main(void)
         puts("input error");
         exit(EXIT_FAILURE);
     }
-
     if ((fp = fopen(fileName, "r+")) == NULL)
     {
         fprintf(stderr, "Can't open %s\n", fileName);
         exit(EXIT_FAILURE);
     }
 
-    while ((bytes = fread(BUF, sizeof(char), BUFFSIZE, fp)) > 0)
+    while ( Offset = ftell(fp),(bytes = fread(BUF, sizeof(char), BUFFSIZE, fp)) > 0)
+    {
+        fseek(fp, Offset, SEEK_SET);
         writeByte(BUF, bytes, fp);
+    }
 
     fclose(fp);
-        
-
     return 0;
 }
 
@@ -66,7 +68,6 @@ void writeByte(char * addr, long bytes, FILE * fp)
         *ptr = toupper(*ptr);
         ptr++;
     }
-    //rewind(fp);
 
     fwrite(addr, sizeof(char), n, fp);
     
