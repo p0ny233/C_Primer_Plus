@@ -28,7 +28,7 @@ int main(void)
 
     puts("Done!");
     if (fclose(fp) != 0)
-        fprintf(stderr, "Eror closing file\n");
+        fprintf(stderr, "Error closing file\n");
 
     return 0;
 }
