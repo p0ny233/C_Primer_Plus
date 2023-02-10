@@ -23,11 +23,11 @@ int main(int argc, char ** argv)
 
     count = get_row_number(fp);
 
-    puts("Enter words to add to the file; press the #");
-    puts("key at the beginning of a line to terminate.");
+    printf("Enter words to add to the file; press the #");
+    puts(" key at the beginning of a line to terminate.");
     while ((fscanf(stdin, "%40s", words) == 1) && (*words != '#'))
     {
-        fprintf(fp, "%d %s.\n", count, words);
+        fprintf(fp, "%d.%s\n", count++, words);
     }
 
     puts("File contents:");
@@ -47,7 +47,7 @@ int get_row_number(FILE * fp)
 {
     char ch;
     rewind(fp);
-    int count;
+    int count = 0;
 
     while ((ch = getc(fp)) != EOF)
         if (ch == '\n')
