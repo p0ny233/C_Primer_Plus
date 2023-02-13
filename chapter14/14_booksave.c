@@ -1,0 +1,106 @@
+#include <stdio.h>
+//#include <string.h>
+#include <stdlib.h>
+
+char * s_gets(char *, int n);
+
+#define MAXTITL 40
+#define MAXAUTL 40
+#define MAXBKS 100
+
+struct book {
+    char title[MAXTITL];
+    char author[MAXAUTL];
+    float value;
+};
+
+
+int main(void)
+{
+    const char * fileName = "book.dat";
+    FILE * fp;
+
+    struct book library[MAXBKS];
+    int count = 0;
+    int index;
+    size_t size;
+    int filecount;
+    size_t bytes;
+
+
+    if ((fp = fopen(fileName, "a+b")) == NULL )
+    {
+        fprintf(stderr, "Can't open %s.", fileName);
+        exit(EXIT_FAILURE);
+    }
+
+    size = sizeof(struct book);
+    rewind(fp);
+
+    while ( (count < MAXBKS) && (bytes = fread(&library[count], size, sizeof(char), fp) == 1))
+    {
+        if (count == 0)
+            puts("Current contents of book.dat:");
+        printf("%s by %s: $%.2f\n", library[count].title, library[count].author, library[count].value);
+        count++;
+    }
+
+    filecount = count;
+
+
+    if (filecount == MAXBKS)
+    {
+        fputs("The book.dat file is full.", stderr);
+        exit(2);
+    }
+
+
+    printf("Please enter the book title.\n");
+    printf("Press [enter] at the start of a line to stop.\n");
+    while (count < MAXBKS && s_gets(library[count].title, MAXTITL) != NULL && library[count].title[count] != '\0')
+    {
+        printf("Now enter the author.\n");
+        s_gets(library[count].author, MAXAUTL);
+
+        printf("Now enter the value.\n");
+        fscanf(stdin, "%f", &library[count++].value);
+
+        while (getchar() != '\n');
+
+        if (count < MAXBKS)
+            printf("Enter the next title.\n");
+    }
+
+    if (count > 0)
+    {
+        printf("Here is the list of your books:\n");
+        for (index = 0; index < count; index++)
+        {
+            fwrite(&library[index], size, 1, fp);
+            printf("%s by %s: $%.2f\n", library[index].title, library[index].author, library[index].value);
+        }
+    }
+    else 
+        printf("No books? Too bad.\n");
+
+    fclose(fp);
+
+    return 0;
+}
+
+char * s_gets(char * st, int n)
+{
+    char * ret_val;
+
+    ret_val = fgets(st, n, stdin);
+    if (ret_val)
+    {
+        while (*st != '\n' && *st != '\0')
+            st++;
+        if (*st == '\n')
+            *st = '\0';
+        else 
+            while (getchar() != '\n');
+    }
+    return ret_val;
+}
