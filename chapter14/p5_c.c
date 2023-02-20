@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define LEN 10
 #define CSIZE 4
+#define NUM 3
 
 struct name {
     char fname[LEN];
@@ -11,39 +14,28 @@ struct name {
 struct student {
     struct name info;
     float average;
-    float grade[3];
+    float grade[]; // use Flexible Array Member
 };
 
 int main(void)
 {
 
-    struct student arr[CSIZE] = 
+    int i;
+    //use Flexible Array Menber
+    struct student * pstu = (struct student *)malloc(CSIZE *(sizeof(struct student) + NUM * sizeof(float)));
+
+    strcpy(pstu[0].info.fname,"fname1");
+    strcpy(pstu[1].info.fname,"fname2");
+    strcpy(pstu[2].info.fname,"fname3");
+
+    strcpy(pstu[0].info.lname,"lname1");
+    strcpy(pstu[1].info.lname,"lname2");
+    strcpy(pstu[2].info.lname,"lname3");
+
+    for (i = 0; i < NUM; i++)
     {
-        {
-            .info={.fname="fname1", .lname="lname1"}, 
-            .average=0.0,
-            .grade={1.1, 2.2, 3.3}
-        },
-        {
-            .info={.fname="fname2", .lname="lname2"}, 
-            .average=0.0,
-            .grade={1.1, 2.2, 3.3}
-        },
-        {
-            .info={.fname="fname3", .lname="lname3"}, 
-            .average=0.0,
-            .grade={1.1, 2.2, 3.3}
-        },
-        {
-            .info={.fname="fname4", .lname="lname4"}, 
-            .average=0.0,
-            .grade={1.1, 2.2, 3.3}
-        }
-    };
-
-    
-
-
+        fprintf(stdout, "%s %s\n", (*(pstu + i)).info.fname, (*(pstu + i)).info.lname);
+    }
 
     return 0;
 }
