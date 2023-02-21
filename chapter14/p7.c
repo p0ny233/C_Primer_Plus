@@ -11,6 +11,7 @@ struct book {
     char title[MAXTITL];
     char author[MAXAUTL];
     float value;
+    int flag;
 };
 
 
@@ -18,7 +19,7 @@ char * s_gets(char * st, int n);
 void listBook(FILE * fp);
 void generateBookData(FILE * fp);
 void AddBookData();
-void deleteBookData();
+void deleteBookData(FILE * fp);
 
 
 
@@ -64,7 +65,7 @@ int main(int argc, char ** argv)
             generateBookData(fp);
             break;
         case 3:
-            deleteBookData();
+            deleteBookData(fp);
             break;
         case 4:
             AddBookData();
@@ -97,7 +98,9 @@ void generateBookData(FILE * fp)
     struct book book[LEN];
     int i = 0, j;
 
-    while (i < LEN && (printf("input title:"), s_gets((book + i)->title, LEN)) && (*((book + i)->title) != '\0') && (printf("input author:"), s_gets((book + i)->author, LEN)) && ((printf("input value:"), fscanf(stdin, "%f", &((book + i)->value)), getchar())))
+    fseek(fp, 0L, SEEK_END);
+
+    while (i < LEN && (printf("input title:"), s_gets((book + i)->title, LEN)) && (*((book + i)->title) != '\0') && (printf("input author:"), s_gets((book + i)->author, LEN)) && ((printf("input value:"), fscanf(stdin, "%f", &((book + i)->value)), getchar(), (book + i)->flag = 1)))
         i++;
         
     for (j = 0; j < i; j++)
@@ -106,9 +109,36 @@ void generateBookData(FILE * fp)
     }
 }
 
-void deleteBookData()
+void deleteBookData(FILE * fp)
 {
+    int i, j, index, select;
+    i = j = index = 0;
+    size_t size = 0;
+    rewind(fp);
+    fseek(fp, 0L, SEEK_END);
+    size = ftell(fp);
+    struct book * pbook;
+    struct book * tmp;
+    pbook = (struct book *)malloc(size);
+    tmp = pbook;
+    rewind(fp);
+    while (fread(pbook + i, sizeof(char), sizeof(struct book), fp) == sizeof(struct book))
+        i++;
+    for (j = 0; j < i; j++)
+    {
+        printf("index[%d] -> %s by %s: %.2f flag: %d\n", index++,(pbook + j)->title, (pbook + j)->author, (pbook + j)->value, (pbook + j)->flag);
+    }
 
+    while (printf("please select need delete:") && (scanf("%d", &select) == 1))
+    {
+        (pbook + select)->flag = 0;
+    }
+
+    
+
+
+
+    
 }
 
 void AddBookData()
