@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdbool.h>
 
 #define MAXTITL 30
 #define MAXAUTL 30
@@ -18,7 +20,7 @@ struct book {
 char * s_gets(char * st, int n);
 void listBook(FILE * fp);
 void generateBookData(FILE * fp);
-void AddBookData();
+void AddBookData(FILE * fp);
 void deleteBookData(FILE * fp);
 
 
@@ -46,37 +48,47 @@ int main(int argc, char ** argv)
         fprintf(stderr, "Can't open %s\n", fileName);
         exit(EXIT_FAILURE);
     }
-
-    printf("menu\n");
-
-    printf("1) list book     2)generate book data\n");
-    printf("3) delete book   4)add book\n");
-    printf("5) exit\n");
-
-    scanf("%d", &input);
-    while (getchar() != '\n');
-
-    switch(input)
+    while (true)
     {
-        case 1:
-            listBook(fp);
-            break;
-        case 2:
-            generateBookData(fp);
-            break;
-        case 3:
-            deleteBookData(fp);
-            break;
-        case 4:
-            AddBookData();
-            break;
-        case 5:
-            puts("Exit");
-            exit(EXIT_SUCCESS);
+        printf(" o         ooooo oooooooooooo ooooo      ooo ooooo     ooo \n");
+        printf("`88.       .888' `888'     `8 `888b.     `8' `888'     `8' \n");
+        printf(" 888b     d'888   888          8 `88b.    8   888       8  \n");
+        printf(" 8 Y88. .P  888   888oooo8     8   `88b.  8   888       8  \n");
+        printf(" 8  `888'   888   888    \"     8     `88b.8   888       8  \n");
+        printf(" 8    Y     888   888       o  8       `888   `88.    .8'  \n");
+        printf("o8o        o888o o888ooooood8 o8o        `8     `YbodP'    \n");
+        printf("                                                           \n");
 
+        printf("1) list book     2)generate book data\n");
+        printf("3) delete book   4)add book\n");
+        printf("5) exit\n");
+
+        scanf("%d", &input);
+        while (getchar() != '\n');
+
+        switch(input)
+        {
+            case 1:
+                listBook(fp);
+                break;
+            case 2:
+                generateBookData(fp);
+                break;
+            case 3:
+                deleteBookData(fp);
+                break;
+            case 4:
+                AddBookData(fp);
+                break;
+            case 5:
+
+                fclose(fp);
+                puts("Exit");
+                exit(EXIT_SUCCESS);
+
+        }
     }
 
-    fclose(fp);
 
     return 0;
 }
@@ -124,25 +136,46 @@ void deleteBookData(FILE * fp)
     rewind(fp);
     while (fread(pbook + i, sizeof(char), sizeof(struct book), fp) == sizeof(struct book))
         i++;
+
     for (j = 0; j < i; j++)
     {
         printf("index[%d] -> %s by %s: %.2f flag: %d\n", index++,(pbook + j)->title, (pbook + j)->author, (pbook + j)->value, (pbook + j)->flag);
     }
 
-    while (printf("please select need delete:") && (scanf("%d", &select) == 1))
+    while (printf("please select need delete[-1 to quit]:") && (scanf("%d", &select) == 1) && select != -1)
     {
         (pbook + select)->flag = 0;
     }
 
+    rewind(fp);
+
+    for (j = 0; j < i; j++)
+    {
+        if ((pbook + j)->flag)
+            fwrite(pbook + j, sizeof(char), sizeof(struct book), fp);
+    }
+
     
-
-
-
-    
+    size = ftell(fp);
+    printf("size = %u\n", size);
+    ftruncate(fp->_fileno, size);
 }
 
-void AddBookData()
+void AddBookData(FILE * fp)
 {
+    struct book book;
+    fseek(fp, 0L, SEEK_END);
+    while ((printf("input title[enter to quit]:"), s_gets(book.title, LEN) != NULL) && (*book.title != '\0'))
+    {
+        printf("input author:");
+        s_gets(book.author, LEN);
+        printf("input book value:");
+        fscanf(stdin, "%f", &book.value);
+        getchar();
+        book.flag = 1;
+
+        fwrite(&book, sizeof(char), sizeof(struct book), fp);
+    }
 
 }
 
